@@ -22,9 +22,11 @@ public class CarController {
     }
 
     //get car
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getCar(@PathVariable("id") Long id) {
+    @GetMapping()
+    public ResponseEntity<?> getCar(@RequestParam(value = "id", required = true) Long id) {
+
         return ResponseEntity.ok().body(carService.getCarById(id));
+    // return new ResponseEntity<Car>(carService.getCarById(id), HttpStatus.OK);
     }
 
     //Add car

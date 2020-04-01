@@ -3,12 +3,14 @@ package com.marcinrosol.carrental.services;
 import com.marcinrosol.carrental.exceptions.car.CarAlreadyExistException;
 import com.marcinrosol.carrental.exceptions.car.CarNotFoundException;
 import com.marcinrosol.carrental.models.Car;
+import com.marcinrosol.carrental.models.Enums.CarType;
 import com.marcinrosol.carrental.repositories.CarRepository;
 import com.marcinrosol.carrental.repositories.RentRepository;
 import com.marcinrosol.carrental.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -31,11 +33,15 @@ public class CarService {
      * @param id id of fetched oibject
      * @return return fetched car object
      */
-    public Object getCarById(Long id) {
-        return carRepository.getOne(id);
+    public Car getCarById(Long id) {
+        Optional<Car> fetchedCar = carRepository.findById(id);
+        if(fetchedCar.isPresent()){
+            return fetchedCar.get();
+        }
+        throw new CarNotFoundException("Car not found");
     }
 
-    //todo: add validate
+    //todo: add object validate
 
     /**
      * Function add Car object to database
@@ -44,12 +50,13 @@ public class CarService {
      * @return return saved object
      */
     public Car addCar(Car car) {
-        Optional<Car> opt = carRepository.findById(car.getId());
+        Optional<Car> opt = carRepository.findByVin(car.getVin());
         if (opt.isPresent()) {
-            //todo: throw new CarArleadyExistException();
+
             throw new CarAlreadyExistException("Car already exist!");
         }
-        return carRepository.saveAndFlush(car);
+        //car.setCarType(CarType.Asegment);
+        return carRepository.save(car);
     }
 
     /**

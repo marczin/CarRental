@@ -1,5 +1,6 @@
 package com.marcinrosol.carrental.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.marcinrosol.carrental.models.Enums.CarType;
 
 import javax.persistence.Entity;
@@ -19,6 +20,8 @@ public class Car {
     private String mark;
     private Long kmPassed;
     private String details; //Details like interior colour etc
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date prodDate; //Date of production
     private int seats; // number of seats
     private CarType carType; //segment class
