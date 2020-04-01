@@ -22,8 +22,16 @@ public class Car {
     private Date prodDate; //Date of production
     private int seats; // number of seats
     private CarType carType; //segment class
+    private Long vin;
 
 
+    public Long getVin() {
+        return vin;
+    }
+
+    public void setVin(Long vin) {
+        this.vin = vin;
+    }
 
     public Long getId() {
         return id;
