@@ -1,10 +1,10 @@
 package com.marcinrosol.carrental.exceptions.response;
 
-public class CarArleadyExistResponse {
+public class CarAlreadyExistResponse {
 
     private String carArleadyExist;
 
-    public CarArleadyExistResponse(String carArleadyExist) {
+    public CarAlreadyExistResponse(String carArleadyExist) {
         this.carArleadyExist = carArleadyExist;
     }
 

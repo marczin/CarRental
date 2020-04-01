@@ -1,12 +1,12 @@
 package com.marcinrosol.carrental.services;
 
+import com.marcinrosol.carrental.exceptions.car.CarAlreadyExistException;
+import com.marcinrosol.carrental.exceptions.car.CarNotFoundException;
 import com.marcinrosol.carrental.models.Car;
 import com.marcinrosol.carrental.repositories.CarRepository;
 import com.marcinrosol.carrental.repositories.RentRepository;
 import com.marcinrosol.carrental.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -47,6 +47,7 @@ public class CarService {
         Optional<Car> opt = carRepository.findById(car.getId());
         if (opt.isPresent()) {
             //todo: throw new CarArleadyExistException();
+            throw new CarAlreadyExistException("Car already exist!");
         }
         return carRepository.saveAndFlush(car);
     }
@@ -59,7 +60,8 @@ public class CarService {
     public void deleteCar(Long id) {
         Optional<Car> opt = carRepository.findById(id);
         if (opt.isPresent()) {
-            //todo: throw new CarArleadyExistException();
+
+            throw new CarAlreadyExistException("Car arleady exist!");
         }
         carRepository.deleteById(id);
     }
@@ -76,6 +78,6 @@ public class CarService {
         if (opt.isPresent()) {
             return carRepository.saveAndFlush(car);
         }
-        return null;  //todo: throw new CarNotFoundException();
+        throw new CarNotFoundException("Car not found!");
     }
 }

@@ -1,10 +1,10 @@
 package com.marcinrosol.carrental.exceptions;
 
 
-import com.marcinrosol.carrental.exceptions.car.CarArleadyExistException;
+import com.marcinrosol.carrental.exceptions.car.CarAlreadyExistException;
 import com.marcinrosol.carrental.exceptions.car.CarIdException;
 import com.marcinrosol.carrental.exceptions.car.CarNotFoundException;
-import com.marcinrosol.carrental.exceptions.response.CarArleadyExistResponse;
+import com.marcinrosol.carrental.exceptions.response.CarAlreadyExistResponse;
 import com.marcinrosol.carrental.exceptions.response.CarIdResponse;
 import com.marcinrosol.carrental.exceptions.response.CarNotFoundResponse;
 import org.springframework.http.HttpStatus;
@@ -52,8 +52,8 @@ public class ResponseEntityExceptionHandler extends org.springframework.web.serv
      * @return return Exception body with message as json and Bad_Request status
      */
     @ExceptionHandler
-    public final ResponseEntity<Object> handleCarArleadyExistException(CarArleadyExistException ex, WebRequest request) {
-        CarArleadyExistResponse exceptionResponse = new CarArleadyExistResponse(ex.getMessage());
+    public final ResponseEntity<Object> handleCarAlreadyExistException(CarAlreadyExistException ex, WebRequest request) {
+        CarAlreadyExistResponse exceptionResponse = new CarAlreadyExistResponse(ex.getMessage());
         return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
