@@ -7,6 +7,12 @@ import com.marcinrosol.carrental.exceptions.car.CarNotFoundException;
 import com.marcinrosol.carrental.exceptions.car.response.CarAlreadyExistResponse;
 import com.marcinrosol.carrental.exceptions.car.response.CarIdResponse;
 import com.marcinrosol.carrental.exceptions.car.response.CarNotFoundResponse;
+import com.marcinrosol.carrental.exceptions.user.UserAlreadyExistException;
+import com.marcinrosol.carrental.exceptions.user.UserNotFoundException;
+import com.marcinrosol.carrental.exceptions.user.response.UserAlreadyExistResponse;
+import com.marcinrosol.carrental.exceptions.user.response.UserNotFoundResponse;
+import com.marcinrosol.carrental.models.User;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -45,9 +51,9 @@ public class ResponseEntityExceptionHandler extends org.springframework.web.serv
     }
 
     /**
-     * Function handle cat arleady exist exception
+     * Function handle car already exist exception
      *
-     * @param ex      carArleadyExistException
+     * @param ex      carAlreadyExistException
      * @param request WebRequest
      * @return return Exception body with message as json and Bad_Request status
      */
@@ -56,5 +62,32 @@ public class ResponseEntityExceptionHandler extends org.springframework.web.serv
         CarAlreadyExistResponse exceptionResponse = new CarAlreadyExistResponse(ex.getMessage());
         return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
+
+    /**
+     * Function handle user already exist exception
+     *
+     * @param ex      userAlreadyExistException
+     * @param request webRequest
+     * @return return Exception body with message as json and Bad_Request status
+     */
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleUserAlreadyExistException(UserAlreadyExistException ex, WebRequest request) {
+        UserAlreadyExistResponse exceptionResponse = new UserAlreadyExistResponse(ex.getMessage());
+        return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Function handle user not found exception
+     *
+     * @param ex      userNotFoundException
+     * @param request webRequest
+     * @return return Exception body with message as json and Bad_Request status
+     */
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
+        UserNotFoundResponse exceptionResponse = new UserNotFoundResponse(ex.getMessage());
+        return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
 
 }

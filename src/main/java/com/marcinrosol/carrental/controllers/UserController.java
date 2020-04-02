@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/user")
 @CrossOrigin("*")
@@ -28,11 +30,27 @@ public class UserController {
     }
 
     //update user
+    @PutMapping("/update")
+    public ResponseEntity<?> updateUser(@RequestBody User user){
+        return new ResponseEntity<User>(userService.updateUser(user), HttpStatus.OK);
+    }
 
     //delete user
+    @DeleteMapping("/delete/{id}")
+    public void deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
+    }
 
     //getuser
-
+    @GetMapping()
+    public ResponseEntity<?> getUser(@RequestParam(value = "id", required = true) Long id){
+        return new ResponseEntity<User>(userService.getUserById(id), HttpStatus.OK);
+    }
     //getallusers
+
+    @GetMapping("/all")
+    public List<User> getAllUser(){
+        return userService.getAllUser();
+    }
 
 }
