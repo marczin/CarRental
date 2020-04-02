@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/car")
 @CrossOrigin("*")
@@ -48,6 +50,13 @@ public class CarController {
     public ResponseEntity<?> updateCar(@RequestBody Car car) {
 
         return new ResponseEntity<Car>(carService.updateCar(car), HttpStatus.OK);
+    }
+
+    //get all cars
+
+    @GetMapping("/all")
+    public List<Car> allCars(){
+        return carService.getAllCars();
     }
 
 

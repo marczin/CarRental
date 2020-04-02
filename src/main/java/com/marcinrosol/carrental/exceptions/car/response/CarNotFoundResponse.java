@@ -1,4 +1,4 @@
-package com.marcinrosol.carrental.exceptions.response;
+package com.marcinrosol.carrental.exceptions.car.response;
 
 public class CarNotFoundResponse {
 
