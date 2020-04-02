@@ -2,6 +2,8 @@ package com.marcinrosol.carrental.controllers;
 
 import com.marcinrosol.carrental.models.Car;
 import com.marcinrosol.carrental.services.CarService;
+import com.marcinrosol.carrental.validation.MapValidationService;
+
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,9 +22,12 @@ public class CarController {
 
     private CarService carService;
 
+    private MapValidationService mapValidationService;
+    
     @Autowired
-    public CarController(CarService carService) {
+    public CarController(CarService carService, MapValidationService mapValidationService) {
         this.carService = carService;
+        this.mapValidationService=mapValidationService;
     }
 
     //get car
@@ -36,8 +41,11 @@ public class CarController {
     //Add car
 
     @PostMapping("/add")
-    public ResponseEntity<?> postCar(@RequestBody Car car, BindingResult bindingResult) {
-        return new ResponseEntity<Car>(carService.addCar(car), HttpStatus.OK);
+    public ResponseEntity<?> postCar(@Valid @RequestBody Car car, BindingResult result) {
+    	ResponseEntity<?> errorMap = mapValidationService.MapValidationService(result);
+		if(errorMap != null) return errorMap;
+		
+    	return new ResponseEntity<Car>(carService.addCar(car), HttpStatus.OK);
     }
 
     //remove car
