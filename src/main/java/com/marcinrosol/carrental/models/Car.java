@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -20,13 +22,11 @@ public class Car {
     private String mark;
     private Long kmPassed;
     private String details; //Details like interior colour etc
-
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date prodDate; //Date of production
     private int seats; // number of seats
     private CarType carType; //segment class
     private Long vin;
-
 
     public Long getVin() {
         return vin;

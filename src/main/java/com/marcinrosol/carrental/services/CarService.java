@@ -10,7 +10,7 @@ import com.marcinrosol.carrental.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +50,7 @@ public class CarService {
      * @param car Object of car
      * @return return saved object
      */
-    public Car addCar(Car car) {
+    public Car addCar( Car car) {
         Optional<Car> opt = carRepository.findByVin(car.getVin());
         if (opt.isPresent()) {
 
