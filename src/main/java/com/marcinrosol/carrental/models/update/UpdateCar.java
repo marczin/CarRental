@@ -1,22 +1,22 @@
-package com.marcinrosol.carrental.models;
+package com.marcinrosol.carrental.models.update;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.marcinrosol.carrental.models.Enums.CarType;
-import com.marcinrosol.carrental.validation.enums.CarTypeSubset;
 import com.marcinrosol.carrental.validation.enums.EnumNamePattern;
-import com.marcinrosol.carrental.validation.enums.ValueOfEnum;
 import org.springframework.format.annotation.NumberFormat;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.*;
 import java.util.Date;
 
-@Entity
-public class Car {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+/**
+ * This class is created as a helper in update car by vin number, we dont provide id of this object, because it might
+ * create problems in relations. if we want update car with vin number then we need to use UpdateCarId class
+ */
+public class UpdateCar {
 
     @NotBlank(message="model can not be empty")
     @NotNull(message="model can not be null")
@@ -54,17 +54,6 @@ public class Car {
     @Column(unique = true)
     private String vin;
 
-    @AssertFalse
-    private boolean rented;
-
-    public boolean isRented() {
-        return rented;
-    }
-
-    public void setRented(boolean rented) {
-        this.rented = rented;
-    }
-
     public String getVin() {
         return vin;
     }
@@ -73,13 +62,6 @@ public class Car {
         this.vin = vin;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getModel() {
         return model;
@@ -139,9 +121,8 @@ public class Car {
 
     @Override
     public String toString() {
-        return "Car{" +
-                "id=" + id +
-                ", model='" + model + '\'' +
+        return "UpdateCar{" +
+                "model='" + model + '\'' +
                 ", mark='" + mark + '\'' +
                 ", kmPassed=" + kmPassed +
                 ", details='" + details + '\'' +

@@ -7,6 +7,10 @@ import com.marcinrosol.carrental.exceptions.car.CarNotFoundException;
 import com.marcinrosol.carrental.exceptions.car.response.CarAlreadyExistResponse;
 import com.marcinrosol.carrental.exceptions.car.response.CarIdResponse;
 import com.marcinrosol.carrental.exceptions.car.response.CarNotFoundResponse;
+import com.marcinrosol.carrental.exceptions.rent.RentDateException;
+import com.marcinrosol.carrental.exceptions.rent.RentException;
+import com.marcinrosol.carrental.exceptions.rent.response.RentDateResponse;
+import com.marcinrosol.carrental.exceptions.rent.response.RentResponse;
 import com.marcinrosol.carrental.exceptions.user.UserAlreadyExistException;
 import com.marcinrosol.carrental.exceptions.user.UserNotFoundException;
 import com.marcinrosol.carrental.exceptions.user.response.UserAlreadyExistResponse;
@@ -86,6 +90,32 @@ public class ResponseEntityExceptionHandler extends org.springframework.web.serv
     @ExceptionHandler
     public final ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
         UserNotFoundResponse exceptionResponse = new UserNotFoundResponse(ex.getMessage());
+        return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Function handle rent data exception
+     *
+     * @param ex      rentDateException
+     * @param request webRequest
+     * @return return Exception body with message as json and Bad_Request status
+     */
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleRentDateException(RentDateException ex, WebRequest request) {
+        RentDateResponse exceptionResponse = new RentDateResponse(ex.getMessage());
+        return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Function handle rent exception
+     *
+     * @param ex      rentException
+     * @param request webRequest
+     * @return return Exception body with message as json and Bad_Request status
+     */
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleRentException(RentException ex, WebRequest request) {
+        RentResponse exceptionResponse = new RentResponse(ex.getMessage());
         return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 

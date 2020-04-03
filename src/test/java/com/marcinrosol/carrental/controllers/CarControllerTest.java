@@ -47,7 +47,7 @@ class CarControllerTest {
         Date date = sdf.parse(dateInString);
         car.setProdDate(date);
         car.setSeats(4);
-        car.setVin(123456789L);
+        car.setVin("123456789L");
 
         carService.addCar(car);
         Car car2 = carRepository.findByVin(car.getVin()).get();

@@ -1,10 +1,10 @@
 package com.marcinrosol.carrental.controllers;
 
 import com.marcinrosol.carrental.models.Car;
+import com.marcinrosol.carrental.models.update.UpdateCar;
 import com.marcinrosol.carrental.services.CarService;
 import com.marcinrosol.carrental.validation.MapValidationService;
 
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +35,6 @@ public class CarController {
     public ResponseEntity<?> getCar(@RequestParam(value = "id", required = true) Long id) {
 
         return ResponseEntity.ok().body(carService.getCarById(id));
-    // return new ResponseEntity<Car>(carService.getCarById(id), HttpStatus.OK);
     }
 
     //Add car
@@ -57,16 +56,27 @@ public class CarController {
     //update car
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateCar(@RequestBody Car car) {
+    public ResponseEntity<?> updateCarByVin(@Valid @RequestBody UpdateCar car,
+                                            @RequestParam(value = "id", required = false) Long id,
+                                            BindingResult result) {
+        ResponseEntity<?> errorMap = mapValidationService.MapValidationService(result);
+        if(errorMap != null) return errorMap;
 
-        return new ResponseEntity<Car>(carService.updateCar(car), HttpStatus.OK);
+        return new ResponseEntity<Car>(carService.updateCar(car, id), HttpStatus.OK);
     }
+
 
     //get all cars
 
     @GetMapping("/all")
     public List<Car> allCars(){
         return carService.getAllCars();
+    }
+
+    //get car by vin number
+    @GetMapping("/{vin}")
+    public ResponseEntity<?> getByVin(@PathVariable String vin){
+        return new ResponseEntity<Car>(carService.getCarByVin(vin), HttpStatus.OK);
     }
 
 

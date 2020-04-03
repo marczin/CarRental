@@ -1,14 +1,19 @@
 package com.marcinrosol.carrental.controllers;
 
 import com.marcinrosol.carrental.models.User;
+import com.marcinrosol.carrental.models.update.UpdateCar;
+import com.marcinrosol.carrental.models.update.UpdateUser;
 import com.marcinrosol.carrental.services.UserService;
+import com.marcinrosol.carrental.validation.MapValidationService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,21 +22,29 @@ import java.util.List;
 public class UserController {
 
     private UserService userService;
+    private MapValidationService mapValidationService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, MapValidationService mapValidationService) {
         this.userService = userService;
+        this.mapValidationService = mapValidationService;
     }
 
     //add user
     @PostMapping("/add")
-    public ResponseEntity<?> addUser(@RequestBody User user){
+    public ResponseEntity<?> addUser(@Valid @RequestBody User user, BindingResult result){
+        ResponseEntity<?> errorMap = mapValidationService.MapValidationService(result);
+        if(errorMap != null) return errorMap;
+
         return new ResponseEntity<User>(userService.addUser(user), HttpStatus.OK);
     }
 
     //update user
     @PutMapping("/update")
-    public ResponseEntity<?> updateUser(@RequestBody User user){
+    public ResponseEntity<?> updateUser(@RequestBody UpdateUser user, BindingResult result){
+        ResponseEntity<?> errorMap = mapValidationService.MapValidationService(result);
+        if(errorMap != null) return errorMap;
+
         return new ResponseEntity<User>(userService.updateUser(user), HttpStatus.OK);
     }
 
