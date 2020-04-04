@@ -63,6 +63,9 @@ public class CarService {
             throw new CarAlreadyExistException("Car already exist!");
         }
         //car.setCarType(CarType.Asegment);
+        if(!opt.get().isActive()){
+
+        }
         return carRepository.save(car);
     }
 
@@ -74,11 +77,11 @@ public class CarService {
     @Transactional
     public void deleteCar(Long id) {
         Optional<Car> opt = carRepository.findById(id);
-        if (opt.isPresent()) {
-
-            throw new CarAlreadyExistException("Car arleady exist!");
+        if (opt.isEmpty()) {
+            throw new CarAlreadyExistException("Car not exist!");
         }
-        carRepository.deleteById(id);
+        opt.get().setActive(false);
+        carRepository.saveAndFlush(opt.get());
     }
 
     /**

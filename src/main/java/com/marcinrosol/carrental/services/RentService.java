@@ -18,6 +18,8 @@ import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class RentService {
@@ -50,19 +52,22 @@ public class RentService {
         if (userOpt.isEmpty())
             throw new UserNotFoundException("User with email: '" + rent.getEmail() + "' not found!");
 
-        List<Rent> carRentedList = rentRepository.findRentByRentedCarAndAndRentedUser(carOpt.get(), userOpt.get());
+        if (!carOpt.get().isActive())
+            throw new CarNotFoundException("Car is not active!");
+
+        List<Rent> carRentedList = rentRepository.findRentByRentedCarAndAndRentedUserAndActive(carOpt.get(), userOpt.get(), true);
 
         if (rent.getRentedDate().compareTo(rent.getReturnedDate()) > 0)
             throw new RentDateException("Rent date cannot be greater than return date!");
         if (rent.getRentedDate().compareTo(rent.getReturnedDate()) == 0)
             throw new RentDateException("Rent and return date cannot equals");
 
-        for (Rent r : carRentedList){
-            if((rent.getRentedDate().after(r.getRentedDate())) &&
+        for (Rent r : carRentedList) {
+            if ((rent.getRentedDate().after(r.getRentedDate())) &&
                     (rent.getRentedDate().before(r.getReturnedDate())))
                 throw new RentDateException("Car is rented in this time 1");
 
-            if((rent.getReturnedDate().after(r.getRentedDate())) &&
+            if ((rent.getReturnedDate().after(r.getRentedDate())) &&
                     (rent.getReturnedDate().before(r.getReturnedDate())))
                 throw new RentDateException("Car is rented in this time 2");
         }
@@ -76,5 +81,36 @@ public class RentService {
         newRent.setReturnedDate(rent.getReturnedDate());
 
         return rentRepository.saveAndFlush(newRent);
+    }
+
+    public List<Rent> getAllRents() {
+        return rentRepository.findAll();
+    }
+
+    public List<Rent> getAllActiveRents() {
+
+        return rentRepository.findAllByActive(true);
+    }
+
+    public List<Rent> getAllNotActiveRents() {
+        return rentRepository.findAllByActive(false);
+    }
+
+    public Rent getById(Long id) {
+        Optional<Rent> opt = rentRepository.findById(id);
+        if (opt.isPresent()) return opt.get();
+        throw new RentException("Rent does not exist");
+    }
+
+    public List<Rent> getAllRentsByUser(String email) {
+        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        if(!matcher.matches()) throw new UserNotFoundException("Email is valid!"); //todo: add custom exception
+
+        Optional<User> opt = userRepository.findByName(email);
+        if(opt.isEmpty()) throw new UserNotFoundException("User not found!");
+
+        return rentRepository.findAllByRentedUser(opt.get());
     }
 }

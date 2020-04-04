@@ -54,15 +54,15 @@ public class Car {
     @Column(unique = true)
     private String vin;
 
-    @AssertFalse
-    private boolean rented;
+    @NotNull
+    private Boolean active;
 
-    public boolean isRented() {
-        return rented;
+    public Boolean isActive() {
+        return active;
     }
 
-    public void setRented(boolean rented) {
-        this.rented = rented;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getVin() {
@@ -149,6 +149,7 @@ public class Car {
                 ", seats=" + seats +
                 ", carType=" + carType +
                 ", vin='" + vin + '\'' +
+                ", active=" + active +
                 '}';
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/rent")
@@ -38,11 +39,31 @@ public class RentController {
     //delete rent
 
     //get all rents
+    @GetMapping("/all")
+    public List<Rent> getAllRents(){
+        return rentService.getAllRents();
+    }
+
+    @GetMapping("/all/active")
+    public List<Rent> getAllActiveRents(){
+        return rentService.getAllActiveRents();
+    }
+    @GetMapping("/all/notactive")
+    public List<Rent> getAllNotActiveRents(){
+        return rentService.getAllNotActiveRents();
+    }
 
     //get rent by id
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getRentById(@PathVariable Long id){
+        return new ResponseEntity<Rent>(rentService.getById(id), HttpStatus.OK);
+    }
 
     //get rents by user
-
+    @GetMapping("/user/{email}")
+    public List<Rent> userRents(@PathVariable String email){
+        return rentService.getAllRentsByUser(email);
+    }
     //get rent by car
 
 

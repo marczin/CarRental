@@ -54,6 +54,17 @@ public class UpdateCar {
     @Column(unique = true)
     private String vin;
 
+    @NotNull
+    private Boolean active;
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
     public String getVin() {
         return vin;
     }
