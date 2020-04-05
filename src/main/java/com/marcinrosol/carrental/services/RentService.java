@@ -113,4 +113,10 @@ public class RentService {
 
         return rentRepository.findAllByRentedUser(opt.get());
     }
+
+    public void deactivateRent(Long id) {
+        Optional<Rent> opt = rentRepository.findById(id);
+        if(opt.isEmpty()) throw new RentException("Can't find rent with id: '"+id+"'");
+        opt.get().setActive(false);
+    }
 }

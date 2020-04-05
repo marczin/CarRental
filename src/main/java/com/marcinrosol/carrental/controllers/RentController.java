@@ -37,7 +37,10 @@ public class RentController {
     //update rent
 
     //delete rent
-
+    @PostMapping("/deactivate")
+    public void deactivateRent(Long id){
+        rentService.deactivateRent(id);
+    }
     //get all rents
     @GetMapping("/all")
     public List<Rent> getAllRents(){
