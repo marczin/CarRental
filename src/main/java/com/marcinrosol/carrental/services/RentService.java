@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -114,9 +115,17 @@ public class RentService {
         return rentRepository.findAllByRentedUser(opt.get());
     }
 
+    @Transactional
     public void deactivateRent(Long id) {
         Optional<Rent> opt = rentRepository.findById(id);
         if(opt.isEmpty()) throw new RentException("Can't find rent with id: '"+id+"'");
         opt.get().setActive(false);
+    }
+
+    @Transactional
+    public void updateActiveOnReturnedByDate(Date date){
+        List<Rent> rentList = rentRepository.findAllByActiveAndReturnedDateIsLessThanEqual(true, date);
+        rentList.forEach( o -> o.setActive(false));
+        rentRepository.saveAll(rentList);
     }
 }
