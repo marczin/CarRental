@@ -32,7 +32,7 @@ public class TaskConfig {
     }
 
     //"0 0/38 12-13 * * *" - every day at 12:38, 13:38
-    @Scheduled(cron = "*/60 * * * * *", zone = "Europe/Warsaw")
+    @Scheduled(cron = "0 0/30 1 * * *", zone = "Europe/Warsaw") //every day at 01:30
     public void scheduleTaskUsingCronExpression() {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 0);
