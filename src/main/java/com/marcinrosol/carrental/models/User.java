@@ -1,13 +1,12 @@
 package com.marcinrosol.carrental.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -30,6 +29,11 @@ public class User {
     @NotBlank
     @Email
     private String name; //name as an email, it'll be needed to spring security and to fetching user information from db
+
+    @NotBlank
+    @Size(max = 120)
+    private String password;
+
 
     public Long getId() {
         return id;
@@ -63,6 +67,14 @@ public class User {
         this.name = name;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -70,6 +82,7 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", name='" + name + '\'' +
-                '}';
+                                '}';
     }
+
 }
