@@ -30,6 +30,7 @@ public class UserController {
         this.mapValidationService = mapValidationService;
     }
 
+    /*
     //add user
     @PostMapping("/add")
     public ResponseEntity<?> addUser(@Valid @RequestBody User user, BindingResult result){
@@ -38,6 +39,8 @@ public class UserController {
 
         return new ResponseEntity<User>(userService.addUser(user), HttpStatus.OK);
     }
+    */
+
 
     //update user
     @PutMapping("/update")
