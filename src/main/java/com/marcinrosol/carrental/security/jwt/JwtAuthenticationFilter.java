@@ -29,6 +29,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.customUserDetailsService = customUserDetailsService;
     }
 
+    public JwtAuthenticationFilter(){}
+
     /**
      * Function use filter to check if token is valid and set user from request
      *
