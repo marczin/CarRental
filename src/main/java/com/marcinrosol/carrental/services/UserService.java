@@ -34,12 +34,12 @@ public class UserService {
      */
     @Transactional
     public User addUser(User user) {
-        Optional<User> fetchUser = userRepository.findByName(user.getName());
+        Optional<User> fetchUser = userRepository.findByEmail(user.getEmail());
         if (fetchUser.isPresent()) throw new UserAlreadyExistException("User already exist!");
         return userRepository.saveAndFlush(user);
     }
 
-    /**
+    /** TODO: UPDATE IT LATER TO ADD PASSWORD CHANGE
      * Function update existing user object
      *
      * @param user user object
@@ -48,12 +48,12 @@ public class UserService {
     @Transactional
     public User updateUser(UpdateUser user) {
 
-        Optional<User> opt = userRepository.findByName(user.getName());
+        Optional<User> opt = userRepository.findByEmail(user.getEmail());
         if (opt.isPresent()) {
             BeanUtils.copyProperties(user, opt.get());
             return userRepository.saveAndFlush(opt.get());
         }
-        throw new UserNotFoundException("User with email: '" + user.getName() + "' not found!");
+        throw new UserNotFoundException("User with email: '" + user.getEmail() + "' not found!");
     }
 
     /**

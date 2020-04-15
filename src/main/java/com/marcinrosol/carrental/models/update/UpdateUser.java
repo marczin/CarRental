@@ -18,8 +18,12 @@ public class UpdateUser {
 
     @NotNull
     @NotBlank
+    private String username;
+
+    @NotNull
+    @NotBlank
     @Email
-    private String name; //name as an email, it'll be needed to spring security and to fetching user information from db
+    private String email;
 
     public String getFirstName() {
         return firstName;
@@ -37,20 +41,19 @@ public class UpdateUser {
         this.lastName = lastName;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    @Override
-    public String toString() {
-        return "UpdateUser{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

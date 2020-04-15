@@ -45,7 +45,7 @@ public class RentService {
     public Rent addRent(RentAdd rent) {
 
         Optional<Car> carOpt = carRepository.findByVin(rent.getVinNumber()); //search car by vin number
-        Optional<User> userOpt = userRepository.findByName(rent.getEmail()); //search user by email
+        Optional<User> userOpt = userRepository.findByEmail(rent.getEmail()); //search user by email
 
 
         if (carOpt.isEmpty())
@@ -109,7 +109,7 @@ public class RentService {
         Matcher matcher = pattern.matcher(email);
         if(!matcher.matches()) throw new UserNotFoundException("Email is valid!"); //todo: add custom exception
 
-        Optional<User> opt = userRepository.findByName(email);
+        Optional<User> opt = userRepository.findByEmail(email);
         if(opt.isEmpty()) throw new UserNotFoundException("User not found!");
 
         return rentRepository.findAllByRentedUser(opt.get());
