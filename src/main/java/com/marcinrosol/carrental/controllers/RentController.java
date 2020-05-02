@@ -93,7 +93,7 @@ public class RentController {
 
 
     /**
-     * List of all activated or deactivated rents
+     * List of all activated or deactivated rentals
      *
      * @param active boolean
      * @return list of cars
@@ -105,11 +105,11 @@ public class RentController {
     }
 
 
-    //get rent by id
+    //get rental by id
 
     /**
-     * Function return rent by id
-     * @param id rent id
+     * Function return rental by id
+     * @param id rental id
      * @return rent object
      */
     @GetMapping("/{id}")
@@ -118,13 +118,13 @@ public class RentController {
         return new ResponseEntity<Rent>(rentService.getById(id), HttpStatus.OK);
     }
 
-    //get rents by user
+    //get rentals by user
 
     /**
-     * Function return rent by user email
+     * Function return rentals by user email
      *
      * @param email user email
-     * @return list of rent object
+     * @return list of rental object
      */
     @GetMapping("/user/{email}")
     @PreAuthorize("hasRole('ADMIN')")
@@ -135,10 +135,10 @@ public class RentController {
     //get rent by car
 
     /**
-     * Function return list of rents by vin
+     * Function return list of rentals by vin
      *
      * @param vin vin parameter
-     * @return list of cars
+     * @return list of rental
      */
     @GetMapping("/car/{vin}")
     @PreAuthorize("hasRole('ADMIN')")
