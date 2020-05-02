@@ -10,6 +10,10 @@ import com.marcinrosol.carrental.repositories.RentRepository;
 import com.marcinrosol.carrental.repositories.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
@@ -95,7 +99,7 @@ public class CarService {
      */
     @Transactional
     public Car updateCar(UpdateCar car, Long id) {
-        //todo: validate
+
         if (id == null) {
             Optional<Car> opt = carRepository.findByVin(car.getVin());
             if (opt.isPresent()) {
@@ -139,5 +143,21 @@ public class CarService {
         if (opt.isPresent()) return opt.get();
 
         throw new CarNotFoundException("Car not found!");
+    }
+
+
+    /**
+     * Function return list of cars by page number, size and sort
+     *
+     * @param page page number
+     * @param size how many objects, default is 5
+     * @param sorted sorted parameter, default is by id
+     * @return list of car objects
+     */
+    @Transactional
+    public List<Car> getCarPaginationList(Integer page, Integer size, String sorted) {
+        Pageable paging = PageRequest.of(page,size, Sort.by(sorted));
+        Page<Car> result = carRepository.findAll(paging);
+        return result.getContent();
     }
 }

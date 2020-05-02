@@ -27,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
      *
      * @param username the username
      * @return return UserDetails object
-     * @throws UsernameNotFoundException
+     * @throws UsernameNotFoundException exception
      */
     @Transactional
     @Override

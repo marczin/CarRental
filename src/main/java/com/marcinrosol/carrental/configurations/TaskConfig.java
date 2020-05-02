@@ -45,6 +45,11 @@ public class TaskConfig {
     }
 
     //"0 0/38 12-13 * * *" - every day at 12:38, 13:38
+
+    /**
+     * Function run every day to chane active fields in rented cars.
+     * If car is rented and the return date is today, it'll change it
+     */
     @Scheduled(cron = "0 0/30 1 * * *", zone = "Europe/Warsaw") //every day at 01:30
     public void scheduleTaskUsingCronExpression() {
         Calendar cal = Calendar.getInstance();
@@ -52,7 +57,7 @@ public class TaskConfig {
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
-        cal.add(Calendar.DATE, 1); //added one day and it works (infinity, day+1)
+        cal.add(Calendar.DATE, 1); //added one day and it works
 
         Date d = cal.getTime();
 
@@ -60,26 +65,30 @@ public class TaskConfig {
 
     }
 
+    /**
+     * Function run at start and check if role admin and user exist in database. If not
+     * it 'll add it to db
+     */
     @EventListener(ApplicationReadyEvent.class)
     public void doSomethingAfterStartup() {
         Optional<Role> roleUser = roleRepository.findByName(RoleName.ROLE_USER);
 
         Optional<Role> roleAdmin = roleRepository.findByName(RoleName.ROLE_ADMIN);
         Optional<Car> car = carRepository.findByVin("qwertyuiopasdfghj");
-        if(!roleUser.isPresent()){
+        if(roleUser.isEmpty()){
             Role role = new Role();
             role.setName(RoleName.ROLE_USER);
             roleRepository.save(role);
             System.out.println("user ROLE ADDED");
         }
-        if(!roleAdmin.isPresent()){
+        if(roleAdmin.isEmpty()){
             Role role = new Role();
             role.setName(RoleName.ROLE_ADMIN);
             roleRepository.save(role);
             System.out.println("ADMIN ROLE ADDED");
         }
 
-        if(!car.isPresent()){
+        if(car.isEmpty()){
             Car car1 = new Car();
             car1.setActive(true);
             car1.setCarType(CarType.Asegment);

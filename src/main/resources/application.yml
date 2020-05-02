@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3308/car_rental
+    url: jdbc:mysql://localhost:3306/car_rental
     username: root
-    password: password
+    password: root
 
   jpa:
     hibernate:

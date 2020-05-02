@@ -37,8 +37,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      * @param request     the request
      * @param response    the response
      * @param filterChain the filter
-     * @throws ServletException
-     * @throws IOException
+     * @throws ServletException exception
+     * @throws IOException exception
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request,

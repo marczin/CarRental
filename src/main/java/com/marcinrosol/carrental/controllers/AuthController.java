@@ -34,6 +34,13 @@ public class AuthController {
         this.mapValidationService= mapValidationService;
     }
 
+    /**
+     * Function used to login
+     *
+     * @param loginRequest login request
+     * @param result errors
+     * @return jwt if success
+     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest, BindingResult result){
         ResponseEntity<?> errorMap = mapValidationService.MapValidationService(result);
@@ -42,6 +49,12 @@ public class AuthController {
         return new ResponseEntity<JwtAuthenticationResponse>(authService.login(loginRequest), HttpStatus.OK);
     }
 
+    /**
+     * Function used to register
+     * @param registerRequest register request
+     * @param result errors
+     * @return response if success
+     */
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest, BindingResult result){
         ResponseEntity<?> errorMap = mapValidationService.MapValidationService(result);

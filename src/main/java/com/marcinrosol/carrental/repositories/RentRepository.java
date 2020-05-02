@@ -18,7 +18,7 @@ import java.util.Optional;
 public interface RentRepository extends JpaRepository<Rent, Long> {
 
     List<Rent> findRentByRentedCarAndAndRentedUserAndActive(Car car, User user, Boolean active);
-    List<Rent> findRentByRentedCar(Car car);
+
     List<Rent> findAllByRentedUser(User user);
 
     List<Rent> findAllByActive(Boolean active);
@@ -29,4 +29,5 @@ public interface RentRepository extends JpaRepository<Rent, Long> {
     @Query("UPDATE Rent r set r.active = 0 WHERE r.active = true AND r.returnedDate = :date ")
     void updateActiveOnRent(@Param("date") Date date);
 
+    List<Rent> findAllByVin(String vin);
 }
