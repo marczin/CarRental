@@ -30,9 +30,9 @@ public class RentController {
     //add new rent
 
     /**
-     * Function adds rent
+     * Function adds rental
      *
-     * @param rent rent object
+     * @param rent rental object
      * @param result errors
      * @return return rent objects
      */
@@ -49,9 +49,9 @@ public class RentController {
     //delete rent
 
     /**
-     * Function delete rent by deactivation
+     * Function delete rental by deactivation
      *
-     * @param id the id of rent
+     * @param id the id of rental
      */
     @PostMapping("/deactivate")
     @PreAuthorize("hasRole('ADMIN')")
@@ -63,24 +63,23 @@ public class RentController {
 
 
     /**
-     * Function return list of all rents
+     * Function return list of all rentals
      *
-     * @return list of cars
+     * @return list of rentals
      */
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
-    //@PreAuthorize("hasRole('ADMIN')")
     public List<Rent> getAllRents(){
         return rentService.getAllRents();
     }
 
     /**
-     * Function return list of rents
+     * Function return list of rentals
      *
      * @param page page number (default 0)
      * @param size page size (default 5)
      * @param sorted sorted by (default id)
-     * @return List of rents
+     * @return List of rentals
      */
     @GetMapping("/list")
     @PreAuthorize("hasRole('ADMIN')")
