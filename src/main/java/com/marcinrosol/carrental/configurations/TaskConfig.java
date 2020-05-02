@@ -1,8 +1,11 @@
 package com.marcinrosol.carrental.configurations;
 
+import com.marcinrosol.carrental.models.Car;
+import com.marcinrosol.carrental.models.Enums.CarType;
 import com.marcinrosol.carrental.models.Enums.RoleName;
 import com.marcinrosol.carrental.models.Rent;
 import com.marcinrosol.carrental.models.Role;
+import com.marcinrosol.carrental.repositories.CarRepository;
 import com.marcinrosol.carrental.repositories.RentRepository;
 import com.marcinrosol.carrental.repositories.RoleRepository;
 import com.marcinrosol.carrental.services.RentService;
@@ -32,11 +35,13 @@ public class TaskConfig {
 
     private RentService rentService;
     private RoleRepository roleRepository;
+    private CarRepository carRepository;
 
     @Autowired
-    public TaskConfig(RentService rentService, RoleRepository roleRepository) {
+    public TaskConfig(RentService rentService, RoleRepository roleRepository, CarRepository carRepository) {
         this.rentService = rentService;
         this.roleRepository = roleRepository;
+        this.carRepository = carRepository;
     }
 
     //"0 0/38 12-13 * * *" - every day at 12:38, 13:38
@@ -60,6 +65,7 @@ public class TaskConfig {
         Optional<Role> roleUser = roleRepository.findByName(RoleName.ROLE_USER);
 
         Optional<Role> roleAdmin = roleRepository.findByName(RoleName.ROLE_ADMIN);
+        Optional<Car> car = carRepository.findByVin("qwertyuiopasdfghj");
         if(!roleUser.isPresent()){
             Role role = new Role();
             role.setName(RoleName.ROLE_USER);
@@ -71,6 +77,21 @@ public class TaskConfig {
             role.setName(RoleName.ROLE_ADMIN);
             roleRepository.save(role);
             System.out.println("ADMIN ROLE ADDED");
+        }
+
+        if(!car.isPresent()){
+            Car car1 = new Car();
+            car1.setActive(true);
+            car1.setCarType(CarType.Asegment);
+            car1.setDetails("details ");
+            car1.setKmPassed(123124L);
+            car1.setMark("BMW");
+            car1.setProdDate(new Date());
+            car1.setSeats(4);
+            car1.setModel("e46");
+            car1.setVin("qwertyuiopasdfghj");
+            carRepository.save(car1);
+            System.out.println("car added");
         }
 
     }

@@ -46,20 +46,18 @@ public class AuthService {
 
 
     public JwtAuthenticationResponse login(LoginRequest loginRequest) {
-        System.out.println("LOGIN SERVICE");
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword())
         );
         SecurityContextHolder.getContext().setAuthentication(auth);
         String jwt = jwtTokenProvider.generateToken(auth);
         JwtAuthenticationResponse response = new JwtAuthenticationResponse();
-        response.setTokenType(jwt);
+        response.setAccessToken(jwt);
         return response;
     }
 
 
     public ApiResponse register(RegisterRequest registerRequest) {
-        System.out.println("REGISTER SERVICE");
         if(userRepository.existsByUsername(registerRequest.getUsername())){
             throw new UserAlreadyExistException("User with username: '"+registerRequest.getUsername()+"' already exist!");
         }

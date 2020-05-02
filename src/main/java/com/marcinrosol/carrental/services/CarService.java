@@ -63,9 +63,9 @@ public class CarService {
             throw new CarAlreadyExistException("Car already exist!");
         }
         //car.setCarType(CarType.Asegment);
-        if(!opt.get().isActive()){
-
-        }
+//        if(!opt.get().isActive()){
+//
+//        }
         return carRepository.save(car);
     }
 

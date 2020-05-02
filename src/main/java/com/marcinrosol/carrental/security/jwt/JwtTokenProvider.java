@@ -30,7 +30,6 @@ public class JwtTokenProvider {
     public String generateToken(Authentication auth) {
         UserPrincipal principal = (UserPrincipal) auth.getPrincipal();
 
-
         Date now = new Date();
         Date expDate = new Date(now.getTime() + expiate);
 
@@ -63,7 +62,7 @@ public class JwtTokenProvider {
      * @param token token in String
      * @return true if valid
      */
-    public Boolean validateToken(String token) {
+    public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(jwtSecretKey).parseClaimsJws(token);
             return true;
@@ -74,7 +73,7 @@ public class JwtTokenProvider {
         } catch (ExpiredJwtException e) {
             logger.error("Expired JWT token! Message - {}", e.getMessage());
         } catch (UnsupportedJwtException e) {
-            logger.error("Unsuported JWT token! Message - {}", e.getMessage());
+            logger.error("Unsupported JWT token! Message - {}", e.getMessage());
         } catch (IllegalArgumentException e) {
             logger.error("JWT claims string is empty! Message - {}", e.getMessage());
         }

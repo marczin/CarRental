@@ -19,17 +19,17 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
-
+    @Autowired
     private JwtTokenProvider jwtTokenProvider;
+    @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-    @Autowired
-    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider, CustomUserDetailsService customUserDetailsService) {
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.customUserDetailsService = customUserDetailsService;
-    }
 
-    public JwtAuthenticationFilter(){}
+//    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider, CustomUserDetailsService customUserDetailsService) {
+//        this.jwtTokenProvider = jwtTokenProvider;
+//        this.customUserDetailsService = customUserDetailsService;
+//    }
+
 
     /**
      * Function use filter to check if token is valid and set user from request
@@ -44,9 +44,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("Request URI is: " + request.getRequestURI());
+        
         try {
             String jwt = getJwtFromRequest(request); //get token from request
+
             if(StringUtils.hasText(jwt) && jwtTokenProvider.validateToken(jwt)){ //check if token is not empty, and validate token
                 Long userId = jwtTokenProvider.getUserIdFromToken(jwt); //get id and create user details
                 UserDetails userDetails = customUserDetailsService.loadUserById(userId);
@@ -56,6 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             logger.error("Could not set user authentication in security context");
+
         }
         filterChain.doFilter(request, response);
     }

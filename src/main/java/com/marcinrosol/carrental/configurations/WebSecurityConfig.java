@@ -6,6 +6,7 @@ import com.marcinrosol.carrental.security.jwt.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -60,8 +61,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js").permitAll()
-                .antMatchers("/api/auth/**").permitAll()
-                .anyRequest().authenticated();
+                //.antMatchers("/api/auth/**").permitAll()
+                //.antMatchers("/api/cars/**").permitAll();
+                //.antMatchers(HttpMethod.GET, "/api/cars/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                //.anyRequest().authenticated();
+                .anyRequest().permitAll();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }
